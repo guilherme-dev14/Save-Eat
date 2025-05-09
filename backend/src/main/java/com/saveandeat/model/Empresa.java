@@ -1,6 +1,7 @@
 package com.saveandeat.model;
 
 public class Empresa {
+    private long id;
     private String nome;
     private String cnpj;
     private String email;
@@ -11,13 +12,21 @@ public class Empresa {
     }
 
     public Empresa(String nome, String cnpj, String email, String senha,
-                   String logradouro, int numero, String bairro, String cidade,
-                   String cep, String estado) {
+            String logradouro, int numero, String bairro, String cidade,
+            String cep, String estado) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.email = email;
         this.senha = senha;
         this.localizacao = new Localizacao(logradouro, numero, bairro, cidade, cep, estado);
+    }
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
