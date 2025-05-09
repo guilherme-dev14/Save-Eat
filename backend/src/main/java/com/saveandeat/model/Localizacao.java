@@ -1,6 +1,7 @@
 package com.saveandeat.model;
 
 public class Localizacao {
+    private long id;
     private String logradouro;
     private int numero;
     private String bairro;
@@ -18,6 +19,14 @@ public class Localizacao {
         this.cidade = cidade;
         this.cep = cep;
         this.estado = estado;
+    }
+
+    public long getId() {
+        return id;
+    }
+    
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLogradouro() {
