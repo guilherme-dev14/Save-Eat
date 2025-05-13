@@ -43,6 +43,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import { login } from '@/services/authService';
 
 @Component({
   components: {
@@ -54,8 +55,20 @@ export default class LoginView extends Vue {
   email = '';
   password = '';
 
-  login() {
-    //TODO: Implementar a lógica de autenticação real aqui
+  async login() {
+    try {
+      const data = await login(this.email, this.password);
+
+      //TODO: Validar tratamentos
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('tipoUsuario', data.tipoUsuario);
+      localStorage.setItem('email', data.email);
+
+      //TODO: Redirecionar para a página correta
+      this.$router.push('/about');
+    } catch (error: any) {
+      alert(error.message || 'Erro ao fazer login');
+    }
   }
 }
 </script>

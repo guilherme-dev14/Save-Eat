@@ -5,7 +5,8 @@
       :id="id"
       :type="type"
       :placeholder="placeholder"
-      v-model="modelValue"
+      :value="value"
+      @input="updateValue"
       :title="hint"
       required
     />
@@ -20,10 +21,15 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class BaseInput extends Vue {
   @Prop({ required: true }) id!: string;
   @Prop({ required: true }) label!: string;
-  @Prop({ required: true }) modelValue!: string;
+  @Prop({ required: true }) value!: string;
   @Prop({ default: 'text' }) type!: string;
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: '' }) hint!: string;
+
+  updateValue(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.$emit('input', input.value);
+  }
 }
 </script>
 
