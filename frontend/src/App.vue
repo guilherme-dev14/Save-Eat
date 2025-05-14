@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <nav v-if="!isLoginPage">
+    <nav v-if="!$route.meta?.hideHeader">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav>
-    <router-view/>
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -12,11 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {
-  get isLoginPage(): boolean {
-    return (this.$route.path === '/login' || this.$route.path === '/');
-  }
-}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
@@ -28,6 +26,11 @@ html, body, #app {
   color: #2c3e50;
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+main {
   height: 100%;
   width: 100%;
 }

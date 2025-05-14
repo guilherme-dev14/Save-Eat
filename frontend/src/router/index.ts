@@ -1,23 +1,33 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
+import CadastroConsumidorView from '@/views/CadastroConsumidorView.vue'
+import CadastroEmpresaView from '@/views/CadastroEmpresaView.vue'
+import { isAuthenticated } from '@/services/authUtils'
+import HomeView from '@/views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'login',
-    component: LoginView
+    component: LoginView,
+    meta: { hideHeader: true }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/cadastro-cliente',
+    component: CadastroConsumidorView,
+    meta: { hideHeader: true }
+  },
+  {
+    path: '/cadastro-empresa',
+    component: CadastroEmpresaView,
+    meta: { hideHeader: true }
+  },
+  {
+    path: '/home',
+    component: HomeView,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -26,5 +36,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.meta!.requiresAuth;
+
+  if (requiresAuth && !isAuthenticated()) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router
