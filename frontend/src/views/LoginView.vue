@@ -26,13 +26,15 @@
           <a href="#">Esqueceu sua senha?</a>
         </div>
 
-        <BaseButton type="submit">Entrar</BaseButton>
+        <BaseButton :disabled="loading" type="submit">
+          {{ loading ? 'Entrando...' : 'Entrar' }}
+        </BaseButton>
 
         <hr />
 
         <div class="signup-links">
-          <a href="#">É cliente e ainda não tem conta? Crie uma conta cliente</a>
-          <a href="#">É empresa e ainda não tem conta? Crie uma conta empresa</a>
+          <router-link to="/cadastro-cliente">É cliente e ainda não tem conta? Crie uma conta cliente</router-link>
+          <router-link to="/cadastro-empresa">É empresa e ainda não tem conta? Crie uma conta empresa</router-link>
         </div>
       </form>
     </div>
@@ -44,6 +46,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import { login } from '@/services/authService';
+import { saveAuthData } from '@/services/authUtils';
 
 @Component({
   components: {
@@ -54,20 +57,20 @@ import { login } from '@/services/authService';
 export default class LoginView extends Vue {
   email = '';
   password = '';
+  loading = false;
 
   async login() {
+    this.loading = true;
     try {
       const data = await login(this.email, this.password);
-
-      //TODO: Validar tratamentos
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('tipoUsuario', data.tipoUsuario);
-      localStorage.setItem('email', data.email);
+      saveAuthData(data.token, data.tipoUsuario, data.email);
 
       //TODO: Redirecionar para a página correta
-      this.$router.push('/about');
+      this.$router.push('/home');
     } catch (error: any) {
-      alert(error.message || 'Erro ao fazer login');
+      alert(error.message || 'Erro ao fazer login.');
+    } finally {
+      this.loading = false;
     }
   }
 }
@@ -76,7 +79,8 @@ export default class LoginView extends Vue {
 <style scoped>
 .login-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  align-items: stretch;
 }
 
 .login-image {
