@@ -2,6 +2,7 @@
   <div class="login-container">
     <div class="login-image"></div>
     <div class="login-form">
+      <BaseAlert v-if="erroLogin" :message="erroLogin" type="error" />
       <h1>Entrar</h1>
 
       <form @submit.prevent="login">
@@ -47,28 +48,35 @@ import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import { login } from '@/services/authService';
 import { saveAuthData } from '@/services/authUtils';
+import BaseAlert from '@/components/BaseAlert.vue';
 
 @Component({
   components: {
     BaseInput,
-    BaseButton
+    BaseButton,
+    BaseAlert,
   }
 })
 export default class LoginView extends Vue {
   email = '';
   password = '';
   loading = false;
+  erroLogin: string | null = null;
 
   async login() {
+    this.erroLogin = null;
     this.loading = true;
     try {
       const data = await login(this.email, this.password);
       saveAuthData(data.token, data.tipoUsuario, data.email);
 
-      //TODO: Redirecionar para a página correta
-      this.$router.push('/home');
+      if (data.tipoUsuario === 'empresa') {
+        this.$router.push('/empresa');
+      } else {
+        this.$router.push('/cliente');
+      }
     } catch (error: any) {
-      alert(error.message || 'Erro ao fazer login.');
+      this.erroLogin = error.message || 'Erro ao fazer login.';
     } finally {
       this.loading = false;
     }

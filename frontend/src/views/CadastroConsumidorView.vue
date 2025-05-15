@@ -2,6 +2,7 @@
     <div class="cadastro-container">
         <div class="cadastro-image"></div>
         <div class="cadastro-form">
+        <BaseAlert v-if="alertCadastro" :message="alertCadastro" :type="alertType" />
         <h1>Criar uma Conta Cliente</h1>
 
         <form @submit.prevent="cadastrarConsumidor">
@@ -31,32 +32,41 @@ import { Component, Vue } from 'vue-property-decorator';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import { cadastrarConsumidor } from '@/services/authService';
+import BaseAlert from '@/components/BaseAlert.vue';
 
 @Component({
     components: {
         BaseInput,
-        BaseButton
+        BaseButton,
+        BaseAlert,
     }
-    })
+})
     export default class CadastroConsumidorView extends Vue {
     nome = '';
     cpf = '';
     email = '';
     senha = '';
+    alertCadastro: string | null = null;
+    alertType = 'error';
 
     async cadastrarConsumidor() {
         try {
-        await cadastrarConsumidor({
-            nome: this.nome,
-            cpf: this.cpf,
-            email: this.email,
-            senha: this.senha
-        });
+            await cadastrarConsumidor({
+                nome: this.nome,
+                cpf: this.cpf,
+                email: this.email,
+                senha: this.senha
+            });
 
-        alert('Cadastro realizado com sucesso!');
-        this.$router.push('/');
+            this.alertType = 'success';
+            this.alertCadastro = 'Cadastro realizado com sucesso!';
+
+            setTimeout(() => {
+                this.$router.push('/');
+            }, 2000);
         } catch (error: any) {
-        alert(error.message || 'Erro ao cadastrar consumidor.');
+            this.alertType = 'error';
+            this.alertCadastro = error.message || 'Erro ao cadastrar consumidor.';
         }
     }
 }

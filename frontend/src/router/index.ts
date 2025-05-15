@@ -24,15 +24,17 @@ const routes: Array<RouteConfig> = [
     component: CadastroEmpresaView,
     meta: { hideHeader: true }
   },
- {
+  {
     path: '/empresa',
     name: 'EmpresaHome',
-    component: HomeEmpresa
+    component: HomeEmpresa,
+    meta: { requiresAuth: true }
   },
   {
     path: '/cliente',
     name: 'ClienteHome',
-    component: HomeCliente
+    component: HomeCliente,
+    meta: { requiresAuth: true }
   },
 ]
 
@@ -46,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta!.requiresAuth;
 
   if (requiresAuth && !isAuthenticated()) {
-    next('/login');
+    next('/');
   } else {
     next();
   }
