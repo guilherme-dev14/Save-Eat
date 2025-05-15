@@ -2,6 +2,7 @@
     <div class="cadastro-container">
         <div class="cadastro-image"></div>
         <div class="cadastro-form">
+        <BaseAlert v-if="alertCadastro" :message="alertCadastro" :type="alertType" />
         <h1>Criar uma Conta Empresa</h1>
 
         <form @submit.prevent="cadastrarEmpresa">
@@ -60,11 +61,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import { cadastrarEmpresa } from '@/services/authService';
+import BaseAlert from '@/components/BaseAlert.vue';
 
 @Component({
     components: {
         BaseInput,
-        BaseButton
+        BaseButton,
+        BaseAlert,
     }
 })
 export default class CadastroEmpresaView extends Vue {
@@ -78,26 +81,32 @@ export default class CadastroEmpresaView extends Vue {
     cidade = '';
     cep = '';
     estado = '';
+    alertCadastro: string | null = null;
+    alertType = 'error';
 
     async cadastrarEmpresa() {
         try {
-        await cadastrarEmpresa({
-            nome: this.nome,
-            cnpj: this.cnpj,
-            email: this.email,
-            senha: this.senha,
-            logradouro: this.logradouro,
-            numero: Number(this.numero),
-            bairro: this.bairro,
-            cidade: this.cidade,
-            cep: this.cep,
-            estado: this.estado
-        });
+            await cadastrarEmpresa({
+                nome: this.nome,
+                cnpj: this.cnpj,
+                email: this.email,
+                senha: this.senha,
+                logradouro: this.logradouro,
+                numero: Number(this.numero),
+                bairro: this.bairro,
+                cidade: this.cidade,
+                cep: this.cep,
+                estado: this.estado
+            });
+            this.alertType = 'success';
+            this.alertCadastro = 'Cadastro realizado com sucesso!';
 
-        alert('Cadastro realizado com sucesso!');
-        this.$router.push('/');
+            setTimeout(() => {
+                this.$router.push('/');
+            }, 2000);
         } catch (error: any) {
-        alert(error.message || 'Erro ao cadastrar empresa.');
+            this.alertType = 'error';
+            this.alertCadastro = error.message || 'Erro ao cadastrar empresa.';
         }
     }
 }
