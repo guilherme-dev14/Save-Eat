@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <nav v-if="!$route.meta?.hideHeader">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+
     <main>
       <router-view />
     </main>
@@ -14,11 +11,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue { }
 </script>
 
 <style lang="scss">
-html, body, #app {
+html,
+body,
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
