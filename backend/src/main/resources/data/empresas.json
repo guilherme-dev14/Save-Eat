@@ -1,0 +1,16 @@
+[ {
+  "id" : 1,
+  "nome" : "keyworks",
+  "cnpj" : "12321321321",
+  "email" : "keyworks@gmail.com",
+  "senha" : "keyworks123",
+  "localizacao" : {
+    "id" : 1747430493144,
+    "logradouro" : "rua feijo",
+    "numero" : 1800,
+    "bairro" : "exposicao",
+    "cidade" : "caxias do sul",
+    "cep" : "95032735",
+    "estado" : "rs"
+  }
+} ]
