@@ -4,8 +4,7 @@ import LoginView from '@/views/LoginView.vue'
 import CadastroConsumidorView from '@/views/CadastroConsumidorView.vue'
 import CadastroEmpresaView from '@/views/CadastroEmpresaView.vue'
 import { isAuthenticated } from '@/services/authUtils'
-import HomeEmpresa from '@/views/Empresa/HomeEmpresa.vue'
-import HomeCliente from '@/views/Cliente/HomeCliente.vue'
+import Home from '@/views/Home.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -27,13 +26,13 @@ const routes: Array<RouteConfig> = [
   {
     path: '/empresa',
     name: 'EmpresaHome',
-    component: HomeEmpresa,
+    component: Home,
     meta: { requiresAuth: true }
   },
   {
     path: '/cliente',
     name: 'ClienteHome',
-    component: HomeCliente,
+    component: Home,
     meta: { requiresAuth: true }
   },
 ]
