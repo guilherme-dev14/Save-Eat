@@ -1,0 +1,31 @@
+[ {
+  "id" : 3,
+  "nome" : "picanha",
+  "descricao" : "carne",
+  "precoOriginal" : 80,
+  "precoDesconto" : 50,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 2,
+  "status" : "estragado",
+  "categoria" : "açougue"
+}, {
+  "id" : 4,
+  "nome" : "entrecot",
+  "descricao" : "carne",
+  "precoOriginal" : 70,
+  "precoDesconto" : 40,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 2,
+  "status" : "estragado",
+  "categoria" : "açougue"
+}, {
+  "id" : 5,
+  "nome" : "banana",
+  "descricao" : "fruta",
+  "precoOriginal" : 15,
+  "precoDesconto" : 5,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 20,
+  "status" : "estragado",
+  "categoria" : "Fruteira"
+} ]

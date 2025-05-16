@@ -1,0 +1,19 @@
+[ {
+  "id" : 1,
+  "nome" : "guilherme medeiros",
+  "cpf" : "05365278062",
+  "email" : "medeirosguilherme1404@gmail.com",
+  "senha" : "guilherme123"
+}, {
+  "id" : 2,
+  "nome" : "guilherm",
+  "cpf" : "053652879044",
+  "email" : "guilherme@gmail.com",
+  "senha" : "guilherme123"
+}, {
+  "id" : 3,
+  "nome" : "dudu sachet",
+  "cpf" : "05365278062",
+  "email" : "dudu@gmail.com",
+  "senha" : "dudu123"
+} ]
