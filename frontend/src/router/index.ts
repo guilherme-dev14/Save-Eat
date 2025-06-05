@@ -3,8 +3,10 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import CadastroConsumidorView from '@/views/CadastroConsumidorView.vue'
 import CadastroEmpresaView from '@/views/CadastroEmpresaView.vue'
+import EsqueciSenhaView from '@/views/EsqueciSenhaView.vue'
 import { isAuthenticated } from '@/services/authUtils'
 import Home from '@/views/Home.vue'
+import RedefinirSenhaView from '@/views/RedefinirSenhaView.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -21,6 +23,16 @@ const routes: Array<RouteConfig> = [
   {
     path: '/cadastro-empresa',
     component: CadastroEmpresaView,
+    meta: { hideHeader: true }
+  },
+  {
+    path: '/esqueci-senha',
+    component: EsqueciSenhaView,
+    meta: { hideHeader: true }
+  },
+  {
+    path: '/redefinir-senha',
+    component: RedefinirSenhaView,
     meta: { hideHeader: true }
   },
   {

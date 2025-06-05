@@ -12,7 +12,7 @@ export async function login(email: string, senha: string) {
         throw new Error('Credenciais inválidas');
     }
 
-    return response.json(); 
+    return response.json();
 }
 
 export async function cadastrarConsumidor(payload: {
@@ -20,7 +20,7 @@ export async function cadastrarConsumidor(payload: {
     cpf: string;
     email: string;
     senha: string;
-    }) {
+}) {
     const response = await fetch(`${API_URL}/cadastrar-consumidor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ export async function cadastrarEmpresa(payload: {
     cidade: string;
     cep: string;
     estado: string;
-    }) {
+}) {
     const response = await fetch(`${API_URL}/cadastrar-empresa`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,4 +57,34 @@ export async function cadastrarEmpresa(payload: {
     }
 
     return response.text();
+}
+
+export async function recuperarSenha(email: string): Promise<any> {
+    try {
+        const response = await fetch(`${API_URL}/recuperar-senha`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erro ao recuperar senha:", error);
+        throw error;
+    }
+}
+
+export async function redefinirSenha(token: string, novaSenha: string): Promise<any> {
+    try {
+        const response = await fetch(`${API_URL}/redefinir-senha`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, novaSenha }),
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erro ao redefinir senha:", error);
+        throw error;
+    }
 }
