@@ -24,18 +24,24 @@
         />
 
         <div class="forgot-password">
-          <a href="#">Esqueceu sua senha?</a>
+          <router-link to="/esqueci-senha">Esqueceu sua senha?</router-link>
         </div>
 
         <BaseButton :disabled="loading" type="submit">
-          {{ loading ? 'Entrando...' : 'Entrar' }}
+          {{ loading ? "Entrando..." : "Entrar" }}
         </BaseButton>
 
         <hr />
 
         <div class="signup-links">
-          <router-link to="/cadastro-cliente">É cliente e ainda não tem conta? Crie uma conta cliente</router-link>
-          <router-link to="/cadastro-empresa">É empresa e ainda não tem conta? Crie uma conta empresa</router-link>
+          <router-link to="/cadastro-cliente"
+            >É cliente e ainda não tem conta? Crie uma conta
+            cliente</router-link
+          >
+          <router-link to="/cadastro-empresa"
+            >É empresa e ainda não tem conta? Crie uma conta
+            empresa</router-link
+          >
         </div>
       </form>
     </div>
@@ -43,23 +49,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import BaseInput from '@/components/BaseInput.vue';
-import BaseButton from '@/components/BaseButton.vue';
-import { login } from '@/services/authService';
-import { saveAuthData } from '@/services/authUtils';
-import BaseAlert from '@/components/BaseAlert.vue';
+import { Component, Vue } from "vue-property-decorator";
+import BaseInput from "@/components/BaseInput.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import { login } from "@/services/authService";
+import { saveAuthData } from "@/services/authUtils";
+import BaseAlert from "@/components/BaseAlert.vue";
 
 @Component({
   components: {
     BaseInput,
     BaseButton,
     BaseAlert,
-  }
+  },
 })
 export default class LoginView extends Vue {
-  email = '';
-  password = '';
+  email = "";
+  password = "";
   loading = false;
   erroLogin: string | null = null;
 
@@ -70,13 +76,13 @@ export default class LoginView extends Vue {
       const data = await login(this.email, this.password);
       saveAuthData(data.token, data.tipoUsuario, data.email);
 
-      if (data.tipoUsuario === 'empresa') {
-        this.$router.push('/empresa');
+      if (data.tipoUsuario === "empresa") {
+        this.$router.push("/empresa");
       } else {
-        this.$router.push('/cliente');
+        this.$router.push("/cliente");
       }
     } catch (error: any) {
-      this.erroLogin = error.message || 'Erro ao fazer login.';
+      this.erroLogin = error.message || "Erro ao fazer login.";
     } finally {
       this.loading = false;
     }
@@ -93,7 +99,7 @@ export default class LoginView extends Vue {
 
 .login-image {
   flex: 1;
-  background-image: url('@/assets/login-image.png');
+  background-image: url("@/assets/login-image.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
