@@ -1,4 +1,3 @@
-// interface/consumidor.ts
 export interface ConsumidorCadastro {
     nome: string;
     cpf: string;
