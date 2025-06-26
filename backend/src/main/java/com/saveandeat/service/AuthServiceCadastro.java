@@ -57,6 +57,8 @@ public class AuthServiceCadastro {
         novo.setCpf(req.getCpf());
         novo.setEmail(req.getEmail());
         novo.setSenha(req.getSenha());
+        novo.setBairro(""); 
+        novo.setCategoriaFavorita("");
 
         consumidores.add(novo);
         mapper.writerWithDefaultPrettyPrinter().writeValue(file, consumidores);
