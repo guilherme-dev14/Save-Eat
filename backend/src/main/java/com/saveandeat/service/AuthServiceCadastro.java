@@ -25,7 +25,7 @@ public class AuthServiceCadastro {
         List<Empresa> empresas = file.exists() ?
             mapper.readValue(file, new TypeReference<List<Empresa>>() {}) : new ArrayList<>();
 
-        long novoId = empresas.stream().mapToLong(Empresa::getId).max().orElse(0) + 1;
+        long novoId = empresas.stream().mapToLong(Empresa::getId).max().orElse(0L) + 1;
 
         Empresa nova = new Empresa();
         nova.setId(novoId);
@@ -34,16 +34,11 @@ public class AuthServiceCadastro {
         nova.setEmail(req.getEmail());
         nova.setSenha(req.getSenha());
 
-        Localizacao loc = new Localizacao();
-        loc.setId(System.currentTimeMillis());
-        loc.setLogradouro(req.getLogradouro());
-        loc.setNumero(req.getNumero());
-        loc.setBairro(req.getBairro());
-        loc.setCidade(req.getCidade());
-        loc.setCep(req.getCep());
-        loc.setEstado(req.getEstado());
-
-        nova.setLocalizacao(loc);
+        Localizacao loc = req.getLocalizacao();
+        if (loc != null) {
+            loc.setId(System.currentTimeMillis());
+            nova.setLocalizacao(loc);
+        }
 
         empresas.add(nova);
         mapper.writerWithDefaultPrettyPrinter().writeValue(file, empresas);

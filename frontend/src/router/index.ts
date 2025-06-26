@@ -7,6 +7,7 @@ import EsqueciSenhaView from '@/views/EsqueciSenhaView.vue'
 import { isAuthenticated } from '@/services/authUtils'
 import Home from '@/views/Home.vue'
 import RedefinirSenhaView from '@/views/RedefinirSenhaView.vue'
+import PerfilEmpresa from '@/views/Empresa/PerfilEmpresa.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -47,6 +48,12 @@ const routes: Array<RouteConfig> = [
     component: Home,
     meta: { requiresAuth: true }
   },
+  {
+    path: '/empresa/perfil',
+    name: 'PerfilEmpresa',
+    component: PerfilEmpresa,
+    meta: { requiresAuth: true }
+  }
 ]
 
 const router = new VueRouter({
