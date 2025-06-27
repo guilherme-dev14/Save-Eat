@@ -7,66 +7,64 @@
 
         <form @submit.prevent="cadastrarConsumidor">
             <div class="input-row">
-                <div class="half">
-                    <BaseInput id="nome" label="Nome" v-model="nome" placeholder="Digite seu nome" />
-                </div>
-                <div class="half">
-                    <BaseInput id="cpf" label="CPF" v-model="cpf" placeholder="Digite seu CPF" />
-                </div>
+            <div class="half">
+                <BaseInput id="nome" label="Nome" v-model="consumidor.nome" placeholder="Digite seu nome" />
+            </div>
+            <div class="half">
+                <BaseInput id="cpf" label="CPF" v-model="consumidor.cpf" placeholder="Digite seu CPF" />
+            </div>
             </div>
 
-            <BaseInput id="email" label="E-mail" v-model="email" type="email" placeholder="Digite seu e-mail" />
-            <BaseInput id="senha" label="Senha" v-model="senha" type="password" placeholder="Digite sua senha" />
+            <BaseInput id="email" label="E-mail" v-model="consumidor.email" type="email" placeholder="Digite seu e-mail" />
+            <BaseInput id="senha" label="Senha" v-model="consumidor.senha" type="password" placeholder="Digite sua senha" />
 
             <BaseButton type="submit">Cadastrar</BaseButton>
 
             <hr />
-
             <router-link to="/" class="link-voltar">Já tem uma conta?</router-link>
         </form>
         </div>
     </div>
 </template>
+
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import BaseInput from '@/components/BaseInput.vue';
-import BaseButton from '@/components/BaseButton.vue';
-import { cadastrarConsumidor } from '@/services/authService';
-import BaseAlert from '@/components/BaseAlert.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import BaseInput from '@/components/BaseInput.vue'
+import BaseButton from '@/components/BaseButton.vue'
+import BaseAlert from '@/components/BaseAlert.vue'
+import { cadastrarConsumidor } from '@/services/authService'
+import type { ConsumidorCadastro } from '@/interface/consumidorCadastro'
 
 @Component({
     components: {
         BaseInput,
         BaseButton,
-        BaseAlert,
+        BaseAlert
     }
 })
-    export default class CadastroConsumidorView extends Vue {
-    nome = '';
-    cpf = '';
-    email = '';
-    senha = '';
-    alertCadastro: string | null = null;
-    alertType = 'error';
+export default class CadastroConsumidorView extends Vue {
+    consumidor: ConsumidorCadastro = {
+        nome: '',
+        cpf: '',
+        email: '',
+        senha: ''
+    }
+
+    alertCadastro: string | null = null
+    alertType = 'error'
 
     async cadastrarConsumidor() {
         try {
-            await cadastrarConsumidor({
-                nome: this.nome,
-                cpf: this.cpf,
-                email: this.email,
-                senha: this.senha
-            });
+        await cadastrarConsumidor(this.consumidor)
+        this.alertType = 'success'
+        this.alertCadastro = 'Cadastro realizado com sucesso!'
 
-            this.alertType = 'success';
-            this.alertCadastro = 'Cadastro realizado com sucesso!';
-
-            setTimeout(() => {
-                this.$router.push('/');
-            }, 2000);
+        setTimeout(() => {
+            this.$router.push('/')
+        }, 2000)
         } catch (error: any) {
-            this.alertType = 'error';
-            this.alertCadastro = error.message || 'Erro ao cadastrar consumidor.';
+        this.alertType = 'error'
+        this.alertCadastro = error.message || 'Erro ao cadastrar consumidor.'
         }
     }
 }
@@ -105,9 +103,13 @@ form {
     flex-direction: column;
 }
 
-.row {
+.input-row {
     display: flex;
-    gap: 20px;
+    gap: 16px;
+}
+
+.half {
+    flex: 1;
 }
 
 hr {
@@ -123,14 +125,4 @@ hr {
     text-decoration: none;
     align-self: flex-start;
 }
-
-.input-row {
-    display: flex;
-    gap: 16px;
-}
-
-.half {
-    flex: 1;
-}
-
 </style>

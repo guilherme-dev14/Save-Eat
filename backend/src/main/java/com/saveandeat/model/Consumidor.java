@@ -6,6 +6,8 @@ public class Consumidor {
     private String cpf;
     private String email;
     private String senha;
+    private String bairro;
+    private String categoriaFavorita;
 
     public Consumidor() {
     }
@@ -55,5 +57,21 @@ public class Consumidor {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCategoriaFavorita() {
+        return categoriaFavorita;
+    }
+
+    public void setCategoriaFavorita(String categoriaFavorita) {
+        this.categoriaFavorita = categoriaFavorita;
     }
 }
