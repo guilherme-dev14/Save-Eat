@@ -7,16 +7,10 @@
         a redefinir a sua senha.
       </p>
 
-      <BaseAlert v-if="mensagem" :message="mensagem" :type="alertType" />
+      <BaseAlert v-model="alert.visible" :message="alert.message" :type="alert.type" />
 
       <form @submit.prevent="enviarSolicitacao">
-        <BaseInput
-          id="email"
-          label="E-mail"
-          type="email"
-          placeholder="Digite o seu e-mail"
-          v-model="email"
-        />
+        <BaseInput id="email" label="E-mail" type="email" placeholder="Digite o seu e-mail" v-model="email" />
 
         <BaseButton class="full-width" type="submit">
           Recuperar senha
@@ -30,8 +24,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { recuperarSenha } from "@/services/authService";
 import BaseAlert from "@/components/BaseAlert.vue";
+import { recuperarSenha } from "@/services/authService";
+import { isEmailValido } from "@/utils/validation";
 
 @Component({
   components: {
@@ -42,28 +37,41 @@ import BaseAlert from "@/components/BaseAlert.vue";
 })
 export default class EsqueciSenhaView extends Vue {
   email = "";
-  mensagem = "";
-  alertType: "error" | "info" = "info";
+  alert = {
+    message: "",
+    type: "info" as "error" | "info",
+    visible: false,
+  };
 
   async enviarSolicitacao() {
     if (!this.email.trim()) {
-      this.alertType = "error";
-      this.mensagem = "Por favor, informe o e-mail.";
-      return;
+      return this.dispararAlerta("Por favor, informe o e-mail.", "error");
+    }
+
+    if (!isEmailValido(this.email)) {
+      return this.dispararAlerta("E-mail inválido.", "error");
     }
 
     try {
       const resposta = await recuperarSenha(this.email);
-      this.alertType = "info";
-      this.mensagem = resposta?.mensagem || "Se o e-mail estiver cadastrado, enviaremos uma mensagem.";
+      this.dispararAlerta(
+        resposta?.mensagem ||
+        "Se o e-mail estiver cadastrado, enviaremos uma mensagem.",
+        "info"
+      );
 
       setTimeout(() => {
         this.$router.push("/");
       }, 3000);
     } catch (error) {
-      this.alertType = "error";
-      this.mensagem = "Erro ao enviar solicitação.";
+      this.dispararAlerta("Erro ao enviar solicitação.", "error");
     }
+  }
+
+  dispararAlerta(mensagem: string, tipo: "error" | "info") {
+    this.alert.message = mensagem;
+    this.alert.type = tipo;
+    this.alert.visible = true;
   }
 }
 </script>
@@ -102,11 +110,6 @@ p {
   font-size: 16px;
   margin-bottom: 32px;
   color: #555;
-}
-
-.mensagem {
-  margin-top: 20px;
-  color: green;
 }
 
 .full-width {

@@ -8,7 +8,8 @@
       :value="value"
       @input="updateValue"
       :title="hint"
-      required
+      :required="required"
+      :maxlength="maxlength"
     />
     <small v-if="hint">{{ hint }}</small>
   </div>
@@ -25,6 +26,8 @@ export default class BaseInput extends Vue {
   @Prop({ default: 'text' }) type!: string;
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: '' }) hint!: string;
+  @Prop({ default: null }) maxlength!: number;
+  @Prop({ default: false }) required!: boolean;
 
   updateValue(event: Event) {
     const input = event.target as HTMLInputElement;
