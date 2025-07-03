@@ -2,26 +2,15 @@
   <div class="login-container">
     <div class="login-image"></div>
     <div class="login-form">
-      <BaseAlert v-if="erroLogin" :message="erroLogin" type="error" />
+      <BaseAlert v-model="alert.visible" :message="alert.message" :type="alert.type" />
+
       <h1>Entrar</h1>
 
       <form @submit.prevent="login">
-        <BaseInput
-          id="email"
-          label="E-mail"
-          v-model="email"
-          type="email"
-          placeholder="Digite seu e-mail"
-        />
+        <BaseInput id="email" label="E-mail" v-model="email" type="email" placeholder="Digite seu e-mail" />
 
-        <BaseInput
-          id="password"
-          label="Senha"
-          v-model="password"
-          type="password"
-          placeholder="Digite sua senha"
-          hint="Deve ser uma combinação de no mínimo 8 letras, números e símbolos."
-        />
+        <BaseInput id="password" label="Senha" v-model="password" type="password" placeholder="Digite sua senha"
+          hint="Deve ser uma combinação de no mínimo 8 letras, números e símbolos." />
 
         <div class="forgot-password">
           <router-link to="/esqueci-senha">Esqueceu sua senha?</router-link>
@@ -34,14 +23,12 @@
         <hr />
 
         <div class="signup-links">
-          <router-link to="/cadastro-cliente"
-            >É cliente e ainda não tem conta? Crie uma conta
-            cliente</router-link
-          >
-          <router-link to="/cadastro-empresa"
-            >É empresa e ainda não tem conta? Crie uma conta
-            empresa</router-link
-          >
+          <router-link to="/cadastro-cliente">
+            É cliente e ainda não tem conta? Crie uma conta cliente
+          </router-link>
+          <router-link to="/cadastro-empresa">
+            É empresa e ainda não tem conta? Crie uma conta empresa
+          </router-link>
         </div>
       </form>
     </div>
@@ -52,9 +39,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import BaseAlert from "@/components/BaseAlert.vue";
 import { login } from "@/services/authService";
 import { saveAuthData } from "@/services/authUtils";
-import BaseAlert from "@/components/BaseAlert.vue";
 
 @Component({
   components: {
@@ -67,22 +54,27 @@ export default class LoginView extends Vue {
   email = "";
   password = "";
   loading = false;
-  erroLogin: string | null = null;
+
+  alert = {
+    message: "",
+    type: "error" as "error" | "success",
+    visible: false,
+  };
 
   async login() {
-    this.erroLogin = null;
+    this.alert.visible = false;
     this.loading = true;
+
     try {
       const data = await login(this.email, this.password);
       saveAuthData(data.token, data.tipoUsuario, data.email);
 
-      if (data.tipoUsuario === "empresa") {
-        this.$router.push("/empresa");
-      } else {
-        this.$router.push("/cliente");
-      }
+      const destino = data.tipoUsuario === "empresa" ? "/empresa" : "/cliente";
+      this.$router.push(destino);
     } catch (error: any) {
-      this.erroLogin = error.message || "Erro ao fazer login.";
+      this.alert.message = error.message || "Erro ao fazer login.";
+      this.alert.type = "error";
+      this.alert.visible = true;
     } finally {
       this.loading = false;
     }

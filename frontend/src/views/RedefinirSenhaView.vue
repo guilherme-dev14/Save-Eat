@@ -4,28 +4,17 @@
             <h1>Redefinir senha</h1>
             <p>Insira uma nova senha para sua conta.</p>
 
-            <BaseAlert v-if="mensagem" :message="mensagem" :type="alertType" />
+            <BaseAlert v-model="alert.visible" :message="alert.message" :type="alert.type" />
 
             <form @submit.prevent="redefinirSenha">
-            <BaseInput
-                id="senha"
-                label="Nova senha"
-                type="password"
-                placeholder="Digite sua nova senha"
-                v-model="senha"
-            />
+                <BaseInput id="senha" label="Nova senha" type="password" placeholder="Digite sua nova senha"
+                    v-model="senha" hint="Deve conter no mínimo 8 caracteres, incluindo letras e números." />
 
-            <BaseInput
-                id="confirmacao"
-                label="Confirmar senha"
-                type="password"
-                placeholder="Confirme sua nova senha"
-                v-model="confirmacao"
-            />
+                <BaseInput id="confirmacao" label="Confirmar senha" type="password"
+                    placeholder="Confirme sua nova senha" v-model="confirmacao" />
 
-            <BaseButton class="full-width" type="submit">Confirmar</BaseButton>
+                <BaseButton class="full-width" type="submit">Confirmar</BaseButton>
             </form>
-
         </div>
     </div>
 </template>
@@ -36,6 +25,7 @@ import BaseInput from "@/components/BaseInput.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
 import { redefinirSenha } from "@/services/authService";
+import { isSenhaForte } from "@/utils/validation";
 
 @Component({
     components: {
@@ -47,35 +37,60 @@ import { redefinirSenha } from "@/services/authService";
 export default class RedefinirSenhaView extends Vue {
     senha = "";
     confirmacao = "";
-    mensagem = "";
-    alertType: "success" | "error" | "info" = "success";
+
+    alert = {
+        message: "",
+        type: "info" as "success" | "error" | "info",
+        visible: false,
+    };
 
     async redefinirSenha() {
         const token = this.$route.query.token;
 
         if (!this.senha || !this.confirmacao) {
-            this.alertType = "error";
-            this.mensagem = "Preencha todos os campos.";
+            this.alert = {
+                message: "Preencha todos os campos.",
+                type: "error",
+                visible: true,
+            };
+            return;
+        }
+
+        if (!isSenhaForte(this.senha)) {
+            this.alert = {
+                message: "A senha deve conter no mínimo 8 caracteres, incluindo letras e números.",
+                type: "error",
+                visible: true,
+            };
             return;
         }
 
         if (this.senha !== this.confirmacao) {
-            this.alertType = "error";
-            this.mensagem = "As senhas não coincidem.";
+            this.alert = {
+                message: "As senhas não coincidem.",
+                type: "error",
+                visible: true,
+            };
             return;
         }
 
         try {
             const resposta = await redefinirSenha(token as string, this.senha);
-            this.alertType = "info";
-            this.mensagem = resposta?.mensagem || "Senha redefinida com sucesso!";
+            this.alert = {
+                message: resposta?.mensagem || "Senha redefinida com sucesso!",
+                type: "success",
+                visible: true,
+            };
 
             setTimeout(() => {
                 this.$router.push("/");
             }, 3000);
         } catch (error) {
-            this.alertType = "error";
-            this.mensagem = "Erro ao redefinir a senha.";
+            this.alert = {
+                message: "Erro ao redefinir a senha.",
+                type: "error",
+                visible: true,
+            };
         }
     }
 }
@@ -115,11 +130,6 @@ p {
     font-size: 16px;
     margin-bottom: 32px;
     color: #555;
-}
-
-.mensagem {
-    margin-top: 20px;
-    color: green;
 }
 
 .full-width {
