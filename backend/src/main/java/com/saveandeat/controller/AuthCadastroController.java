@@ -20,6 +20,8 @@ public class AuthCadastroController {
         try {
             authServiceCadastro.cadastrarEmpresa(req);
             return ResponseEntity.ok("Empresa cadastrada com sucesso");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Erro ao cadastrar empresa");
         }
@@ -30,6 +32,8 @@ public class AuthCadastroController {
         try {
             authServiceCadastro.cadastrarConsumidor(req);
             return ResponseEntity.ok("Consumidor cadastrado com sucesso");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(409).body(e.getMessage()); // 409 = CONFLICT
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Erro ao cadastrar consumidor");
         }

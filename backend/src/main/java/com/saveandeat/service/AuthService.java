@@ -6,6 +6,9 @@ import com.saveandeat.dto.LoginRequest;
 import com.saveandeat.dto.LoginResponse;
 import com.saveandeat.model.Empresa;
 import com.saveandeat.model.Consumidor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -16,13 +19,16 @@ public class AuthService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public LoginResponse autenticar(LoginRequest request) throws Exception {
 
         InputStream empresaStream = getClass().getResourceAsStream("/data/empresas.json");
         List<Empresa> empresas = mapper.readValue(empresaStream, new TypeReference<List<Empresa>>() {});
 
         for (Empresa e : empresas) {
-            if (e.getEmail().equalsIgnoreCase(request.getEmail()) && e.getSenha().equals(request.getSenha())) {
+            if (e.getEmail().equalsIgnoreCase(request.getEmail()) && passwordEncoder.matches(request.getSenha(), e.getSenha())) {
                 return new LoginResponse("fake-jwt-token", "empresa", e.getEmail());
             }
         }
@@ -31,7 +37,7 @@ public class AuthService {
         List<Consumidor> consumidores = mapper.readValue(consumidorStream, new TypeReference<List<Consumidor>>() {});
 
         for (Consumidor c : consumidores) {
-            if (c.getEmail().equalsIgnoreCase(request.getEmail()) && c.getSenha().equals(request.getSenha())) {
+            if (c.getEmail().equalsIgnoreCase(request.getEmail()) && passwordEncoder.matches(request.getSenha(), c.getSenha())) {
                 return new LoginResponse("fake-jwt-token", "consumidor", c.getEmail());
             }
         }
