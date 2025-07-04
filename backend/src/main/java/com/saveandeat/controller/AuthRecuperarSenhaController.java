@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saveandeat.model.Consumidor;
 import com.saveandeat.model.Empresa;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -18,6 +21,9 @@ public class AuthRecuperarSenhaController {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String basePath = "src/main/resources/data/";
     private final Map<String, String> tokens = new HashMap<>();
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/recuperar-senha")
     public ResponseEntity<?> recuperarSenha(@RequestBody Map<String, String> body) {
@@ -91,6 +97,7 @@ public class AuthRecuperarSenhaController {
             File consumidorFile = new File(basePath + "consumidores.json");
             List<Consumidor> consumidores = objectMapper.readValue(consumidorFile, new TypeReference<>() {});
             boolean atualizado = false;
+            novaSenha = passwordEncoder.encode(novaSenha);
 
             for (Consumidor c : consumidores) {
                 if (c.getEmail().equalsIgnoreCase(email)) {
