@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.saveandeat.model.Produto;
 import org.springframework.stereotype.Service;
-import com.saveandeat.model.Empresa;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDate;
