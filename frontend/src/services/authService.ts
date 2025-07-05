@@ -26,13 +26,13 @@ export async function cadastrarConsumidor(
     body: JSON.stringify(payload),
   });
 
-  const text = await response.text();
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(text || "Erro ao cadastrar consumidor");
+    throw new Error(data.mensagem || "Erro ao cadastrar consumidor");
   }
 
-  return await response.text();
+  return data.mensagem || "Cadastro realizado com sucesso";
 }
 
 export async function cadastrarEmpresa(
@@ -44,13 +44,13 @@ export async function cadastrarEmpresa(
     body: JSON.stringify(payload),
   });
 
-  const text = await response.text();
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(text || "Erro ao cadastrar empresa");
+    throw new Error(data.mensagem || "Erro ao cadastrar empresa");
   }
 
-  return await response.text();
+  return data.mensagem || "Cadastro realizado com sucesso";
 }
 
 export async function recuperarSenha(email: string): Promise<any> {
