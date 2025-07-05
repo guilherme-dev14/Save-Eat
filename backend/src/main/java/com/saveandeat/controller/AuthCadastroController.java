@@ -3,6 +3,9 @@ package com.saveandeat.controller;
 import com.saveandeat.dto.CadastroEmpresaRequest;
 import com.saveandeat.dto.CadastroConsumidorRequest;
 import com.saveandeat.service.AuthServiceCadastro;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +22,11 @@ public class AuthCadastroController {
     public ResponseEntity<?> cadastrarEmpresa(@RequestBody CadastroEmpresaRequest req) {
         try {
             authServiceCadastro.cadastrarEmpresa(req);
-            return ResponseEntity.ok("Empresa cadastrada com sucesso");
+            return ResponseEntity.ok(Map.of("mensagem", "Empresa cadastrada com sucesso"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(409).body(e.getMessage());
+            return ResponseEntity.status(409).body(Map.of("mensagem", "E-mail já cadastrado"));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao cadastrar empresa");
+            return ResponseEntity.status(500).body(Map.of("mensagem", "Erro ao cadastrar empresa"));
         }
     }
 
@@ -31,11 +34,11 @@ public class AuthCadastroController {
     public ResponseEntity<?> cadastrarConsumidor(@RequestBody CadastroConsumidorRequest req) {
         try {
             authServiceCadastro.cadastrarConsumidor(req);
-            return ResponseEntity.ok("Consumidor cadastrado com sucesso");
+            return ResponseEntity.ok(Map.of("mensagem", "Consumidor cadastrado com sucesso"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(409).body(e.getMessage()); // 409 = CONFLICT
+            return ResponseEntity.status(409).body(Map.of("mensagem", "E-mail já cadastrado"));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao cadastrar consumidor");
+            return ResponseEntity.status(500).body(Map.of("mensagem", "Erro ao cadastrar consumidor"));
         }
     }
 }
