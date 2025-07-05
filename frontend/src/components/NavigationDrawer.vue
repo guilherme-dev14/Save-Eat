@@ -113,6 +113,9 @@ export default Vue.extend({
     font-weight: bold;
 }
 
+.drawer a:hover {
+    text-decoration: underline;
+}
 
 .drawer {
     width: 220px;

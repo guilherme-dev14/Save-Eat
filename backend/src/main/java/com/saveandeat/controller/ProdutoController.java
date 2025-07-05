@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/produtos")
 @CrossOrigin(origins = "*")
@@ -16,7 +15,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService service;
 
-    @GetMapping("/todos")
+    @GetMapping
     public List<Produto> listarTodos() throws Exception {
         return service.listarTodos();
     }
@@ -24,16 +23,6 @@ public class ProdutoController {
     @GetMapping("/destaques")
     public List<Produto> listarDestaques() throws Exception {
         return service.listarDestaques();
-    }
-
-    @GetMapping("/ForaValidade")
-    public List<Produto> listarForaValidade() throws Exception {
-        return service.listarForaValidade();
-    }
-
-    @GetMapping("/ProximoValidade")
-    public List<Produto> listarProximoValidade() throws Exception {
-        return service.listarPertoDaValidade();
     }
 
     @GetMapping("/{id}")

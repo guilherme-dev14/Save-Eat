@@ -32,10 +32,8 @@ public class EmpresaService {
 
     private List<Empresa> readEmpresas() throws Exception {
         File file = getFile();
-        if (!file.exists())
-            return new ArrayList<>();
-        return mapper.readValue(file, new TypeReference<List<Empresa>>() {
-        });
+        if (!file.exists()) return new ArrayList<>();
+        return mapper.readValue(file, new TypeReference<List<Empresa>>() {});
     }
 
     private void saveEmpresas(List<Empresa> empresas) throws Exception {
@@ -46,13 +44,6 @@ public class EmpresaService {
         return readEmpresas().stream()
                 .filter(e -> e.getEmail().equalsIgnoreCase(email))
                 .findFirst();
-    }
-
-    public Empresa buscarPorIdEmpresa(long id) throws Exception {
-        return readEmpresas().stream()
-                .filter(e -> e.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new Exception("Empresa não encontrada"));
     }
 
     public Empresa atualizar(String email, Empresa atualizada) throws Exception {

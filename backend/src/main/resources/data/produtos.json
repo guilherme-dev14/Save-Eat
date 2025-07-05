@@ -1,62 +1,31 @@
-[
-  {
-    "id": 3,
-    "nome": "picanha",
-    "descricao": "carne",
-    "precoOriginal": 80,
-    "precoDesconto": 50,
-    "dataValidade": "2025-05-18",
-    "quantidade": 2,
-    "status": "estragado",
-    "categoria": "açougue",
-    "idEmpresa": 1
-  },
-  {
-    "id": 4,
-    "nome": "entrecot",
-    "descricao": "carne",
-    "precoOriginal": 70,
-    "precoDesconto": 40,
-    "dataValidade": "2025-05-18",
-    "quantidade": 2,
-    "status": "estragado",
-    "categoria": "açougue",
-    "idEmpresa": 1
-  },
-  {
-    "id": 5,
-    "nome": "banana",
-    "descricao": "fruta",
-    "precoOriginal": 15,
-    "precoDesconto": 5,
-    "dataValidade": "2025-05-18",
-    "quantidade": 20,
-    "status": "estragado",
-    "categoria": "Fruteira",
-    "idEmpresa": 1
-  },
-  {
-    "id": 6,
-    "nome": "Carne",
-    "descricao": "string",
-    "precoOriginal": 10,
-    "precoDesconto": 5,
-    "dataValidade": "2025-06-30",
-    "quantidade": 5,
-    "status": "string",
-    "categoria": "string",
-    "idEmpresa": 1
-  },
-  {
-    "id": 7,
-    "nome": "asd",
-    "descricao": "string",
-    "precoOriginal": 15,
-    "precoDesconto": 10,
-    "dataValidade": "2025-07-01",
-    "quantidade": 0,
-    "status": "string",
-    "categoria": "string",
-    "idEmpresa": 1
-  }
-]
+[ {
+  "id" : 3,
+  "nome" : "picanha",
+  "descricao" : "carne",
+  "precoOriginal" : 80,
+  "precoDesconto" : 50,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 2,
+  "status" : "estragado",
+  "categoria" : "açougue"
+}, {
+  "id" : 4,
+  "nome" : "entrecot",
+  "descricao" : "carne",
+  "precoOriginal" : 70,
+  "precoDesconto" : 40,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 2,
+  "status" : "estragado",
+  "categoria" : "açougue"
+}, {
+  "id" : 5,
+  "nome" : "banana",
+  "descricao" : "fruta",
+  "precoOriginal" : 15,
+  "precoDesconto" : 5,
+  "dataValidade" : "2025-05-18",
+  "quantidade" : 20,
+  "status" : "estragado",
+  "categoria" : "Fruteira"
+} ]

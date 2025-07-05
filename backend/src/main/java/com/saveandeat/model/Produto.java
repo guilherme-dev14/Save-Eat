@@ -13,86 +13,32 @@ public class Produto {
     private int quantidade;
     private String status;
     private String categoria;
-    private Long idEmpresa;
 
     // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public Long getIdEmpresa() {
-        return idEmpresa;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setIdEmpresa(Long idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
+    public BigDecimal getPrecoOriginal() { return precoOriginal; }
+    public void setPrecoOriginal(BigDecimal precoOriginal) { this.precoOriginal = precoOriginal; }
 
-    public String getNome() {
-        return nome;
-    }
+    public BigDecimal getPrecoDesconto() { return precoDesconto; }
+    public void setPrecoDesconto(BigDecimal precoDesconto) { this.precoDesconto = precoDesconto; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public LocalDate getDataValidade() { return dataValidade; }
+    public void setDataValidade(LocalDate dataValidade) { this.dataValidade = dataValidade; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public int getQuantidade() { return quantidade; }
+    public void setQuantidade(int quantidade) { this.quantidade = quantidade; }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public BigDecimal getPrecoOriginal() {
-        return precoOriginal;
-    }
-
-    public void setPrecoOriginal(BigDecimal precoOriginal) {
-        this.precoOriginal = precoOriginal;
-    }
-
-    public BigDecimal getPrecoDesconto() {
-        return precoDesconto;
-    }
-
-    public void setPrecoDesconto(BigDecimal precoDesconto) {
-        this.precoDesconto = precoDesconto;
-    }
-
-    public LocalDate getDataValidade() {
-        return dataValidade;
-    }
-
-    public void setDataValidade(LocalDate dataValidade) {
-        this.dataValidade = dataValidade;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
 }

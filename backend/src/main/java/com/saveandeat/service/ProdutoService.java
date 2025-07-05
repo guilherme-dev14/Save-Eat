@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import com.saveandeat.model.Produto;
 import org.springframework.stereotype.Service;
 import com.saveandeat.model.Empresa;
@@ -35,10 +34,8 @@ public class ProdutoService {
 
     private List<Produto> readProdutos() throws Exception {
         File file = getFile();
-        if (!file.exists())
-            return new ArrayList<>();
-        return mapper.readValue(file, new TypeReference<List<Produto>>() {
-        });
+        if (!file.exists()) return new ArrayList<>();
+        return mapper.readValue(file, new TypeReference<List<Produto>>() {});
     }
 
     private void saveProdutos(List<Produto> produtos) throws Exception {
@@ -57,20 +54,7 @@ public class ProdutoService {
 
     public List<Produto> listarDestaques() throws Exception {
         return readProdutos().stream()
-                .filter(p -> p.getDataValidade().isAfter(LocalDate.now()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Produto> listarForaValidade() throws Exception {
-        return readProdutos().stream()
-                .filter(p -> p.getDataValidade().isBefore(LocalDate.now()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Produto> listarPertoDaValidade() throws Exception {
-        return readProdutos().stream()
-                .filter(p -> p.getDataValidade().isAfter(LocalDate.now().minusDays(5))
-                        && p.getDataValidade().isBefore(LocalDate.now()))
+                .filter(p -> p.getDataValidade().isBefore(LocalDate.now().plusDays(7)))
                 .collect(Collectors.toList());
     }
 
@@ -78,10 +62,6 @@ public class ProdutoService {
         List<Produto> produtos = readProdutos();
         Long novoId = produtos.stream().mapToLong(Produto::getId).max().orElse(0L) + 1;
         produto.setId(novoId);
-        Empresa empresa = new EmpresaService().buscarPorIdEmpresa(produto.getIdEmpresa());
-        if (empresa == null) {
-            throw new Exception("Empresa não encontrada para o ID: " + produto.getIdEmpresa());
-        }
         produtos.add(produto);
         saveProdutos(produtos);
         return produto;
