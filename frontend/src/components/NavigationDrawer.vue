@@ -41,6 +41,18 @@
                         </span>
                     </router-link></li>
             </ul>
+            <div class="logout-container">
+                <button class="menu-link logout-link" @click="logout">
+                    <span class="icon-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="35" height="32"
+                            fill="#6d7072">
+                            <path
+                                d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+                        </svg>
+                        <span>Sair</span>
+                    </span>
+                </button>
+            </div>
         </aside>
         <main class="content">
             <slot />
@@ -49,6 +61,7 @@
 </template>
 
 <script lang="ts">
+import { logout } from '@/services/authUtils'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -59,6 +72,10 @@ export default Vue.extend({
         }
     },
     methods: {
+        logout() {
+            logout()
+            this.$router.push('/')
+        }
     }
 })
 </script>
@@ -124,6 +141,7 @@ export default Vue.extend({
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
     border-right: 1px solid #e0e0e0;
+    position: relative;
 }
 
 .content {
@@ -153,5 +171,32 @@ export default Vue.extend({
 
 .last-link {
     border-bottom: 1px solid #bbbdbe;
+}
+
+.logout-container {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    /* para centralizar */
+}
+
+.logout-link {
+    background: none;
+    border: none;
+    text-align: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-link:hover {
+    background-color: #dddddd;
 }
 </style>
