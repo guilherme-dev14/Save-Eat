@@ -1,26 +1,41 @@
 <template>
     <transition name="fade">
-        <div v-if="visible" :class="['base-alert', type]">
-        <span>{{ message }}</span>
-        <button class="close" @click="visible = false">&times;</button>
+        <div v-if="visible && message" :class="['base-alert', type]">
+            <span>{{ message }}</span>
+            <button class="close" @click="visible = false">&times;</button>
         </div>
     </transition>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Emit, Watch } from 'vue-property-decorator'
 
 @Component
 export default class BaseAlert extends Vue {
-    @Prop({ required: true }) message!: string;
-    @Prop({ default: 'info' }) type!: 'success' | 'error' | 'warning' | 'info';
+    @Prop({ required: true }) message!: string
+    @Prop({ default: 'info' }) type!: 'success' | 'error' | 'warning' | 'info'
+    @Prop({ default: false }) value!: boolean
 
-    visible: boolean = true;
+    @Emit('input')
+    emitInput(val: boolean) {
+        return val
+    }
 
-    mounted() {
-        setTimeout(() => {
-        this.visible = false;
-        }, 4000);
+    get visible() {
+        return this.value
+    }
+
+    set visible(val: boolean) {
+        this.emitInput(val)
+    }
+
+    @Watch('value')
+    onVisibleChanged(novoValor: boolean) {
+        if (novoValor) {
+            setTimeout(() => {
+                this.visible = false
+            }, 4000)
+        }
     }
 }
 </script>
@@ -68,10 +83,13 @@ export default class BaseAlert extends Vue {
     margin-left: 16px;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
     transition: opacity 0.3s ease;
 }
-.fade-enter, .fade-leave-to {
+
+.fade-enter,
+.fade-leave-to {
     opacity: 0;
 }
 </style>

@@ -8,8 +8,10 @@
 
         <form @submit.prevent="salvarPerfil" class="grid-form">
           <BaseInput id="nome" label="Nome" v-model="empresa.nome" placeholder="Nome da empresa" />
-          <BaseInput id="cnpj" label="CNPJ" v-model="empresa.cnpj" placeholder="00.000.000/0001-00" />
-          <BaseInput id="logradouro" label="Logradouro" v-model="empresa.localizacao.logradouro" placeholder="Rua Exemplo" />
+          <BaseInput id="cnpj" label="CNPJ" v-model="empresa.cnpj" placeholder="00.000.000/0001-00"
+            @input="empresa.cnpj = aplicarMascaraCnpj(empresa.cnpj)" maxlength="18" />
+          <BaseInput id="logradouro" label="Logradouro" v-model="empresa.localizacao.logradouro"
+            placeholder="Rua Exemplo" />
           <BaseInput id="numero" label="Número" v-model="empresa.localizacao.numero" placeholder="123" />
           <BaseInput id="bairro" label="Bairro" v-model="empresa.localizacao.bairro" placeholder="Centro" />
           <BaseInput id="cidade" label="Cidade" v-model="empresa.localizacao.cidade" placeholder="Caxias do Sul" />
@@ -22,19 +24,25 @@
         </form>
       </div>
 
-      <BaseAlert v-if="mensagem" :message="mensagem" :type="sucesso ? 'success' : 'error'" />
+      <BaseAlert v-model="alert.visible" :message="alert.message" :type="alert.type" />
     </div>
   </NavigationDrawer>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, onMounted } from 'vue'
+import { defineComponent, reactive, onMounted } from 'vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseAlert from '@/components/BaseAlert.vue'
 import { buscarEmpresa, atualizarEmpresa } from '@/services/empresaService'
 import type { Empresa } from '@/interface/empresa'
+import {
+  isCampoPreenchido,
+  isCnpjValido,
+  isCepValido,
+  aplicarMascaraCnpj
+} from '@/utils/validation'
 
 export default defineComponent({
   name: 'PerfilEmpresa',
@@ -43,6 +51,9 @@ export default defineComponent({
     BaseInput,
     BaseButton,
     BaseAlert
+  },
+  methods: {
+    aplicarMascaraCnpj
   },
   setup() {
     const empresa = reactive<Empresa>({
@@ -59,14 +70,18 @@ export default defineComponent({
       }
     })
 
-    const mensagem = ref('')
-    const sucesso = ref(false)
+    const alert = reactive({
+      message: '',
+      type: 'success' as 'success' | 'error' | 'info',
+      visible: false
+    })
 
     onMounted(async () => {
       const email = localStorage.getItem('email')
       if (!email) {
-        mensagem.value = 'Email não encontrado.'
-        sucesso.value = false
+        alert.message = 'Email não encontrado.'
+        alert.type = 'error'
+        alert.visible = true
         return
       }
 
@@ -74,24 +89,91 @@ export default defineComponent({
         const dados = await buscarEmpresa(email)
         Object.assign(empresa, dados)
       } catch {
-        mensagem.value = 'Erro ao carregar os dados.'
-        sucesso.value = false
+        alert.message = 'Erro ao carregar os dados.'
+        alert.type = 'error'
+        alert.visible = true
       }
     })
 
+    const validarFormulario = (): boolean => {
+      const loc = empresa.localizacao
+
+      if (!isCampoPreenchido(empresa.nome)) {
+        alert.message = 'Nome da empresa é obrigatório.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCnpjValido(empresa.cnpj)) {
+        alert.message = 'CNPJ inválido.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCampoPreenchido(loc.logradouro)) {
+        alert.message = 'Logradouro é obrigatório.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!loc.numero || loc.numero <= 0) {
+        alert.message = 'Número deve ser maior que 0.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCampoPreenchido(loc.bairro)) {
+        alert.message = 'Bairro é obrigatório.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCampoPreenchido(loc.cidade)) {
+        alert.message = 'Cidade é obrigatória.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCepValido(loc.cep)) {
+        alert.message = 'CEP inválido. Use o formato 00000-000.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      if (!isCampoPreenchido(loc.estado)) {
+        alert.message = 'UF é obrigatória.'
+        alert.type = 'error'
+        alert.visible = true
+        return false
+      }
+
+      return true
+    }
+
     const salvarPerfil = async () => {
+      if (!validarFormulario()) return
+
       const email = localStorage.getItem('email')
       try {
         await atualizarEmpresa(email || '', empresa)
-        mensagem.value = 'Salvo com sucesso!'
-        sucesso.value = true
+        alert.message = 'Salvo com sucesso!'
+        alert.type = 'success'
+        alert.visible = true
       } catch {
-        mensagem.value = 'Erro ao salvar.'
-        sucesso.value = false
+        alert.message = 'Erro ao salvar.'
+        alert.type = 'error'
+        alert.visible = true
       }
     }
 
-    return { empresa, mensagem, sucesso, salvarPerfil }
+    return { empresa, alert, salvarPerfil }
   }
 })
 </script>
@@ -138,5 +220,4 @@ export default defineComponent({
 .botao-salvar {
   width: 100%;
 }
-
 </style>
