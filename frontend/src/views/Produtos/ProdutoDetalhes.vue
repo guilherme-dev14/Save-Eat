@@ -4,34 +4,52 @@
             <h1>Mais Detalhes do Produto</h1>
             <div class="produto-detalhes" v-if="produto">
 
-                <h2>{{ produto.nome }}</h2>
-                <p><strong>Descrição:</strong>{{ produto.descricao }}</p>
-                <p><strong>{{ produto.quantidade }} produtos em estoque</strong></p>
-                <p><strong>Categorias:</strong>{{ produto.categoria }}</p>
+                <h1>{{ produto.nome }}</h1>
+                <p>{{ produto.descricao }}</p>
+                <p>{{ produto.quantidade }} produtos em estoque</p>
                 <v-row>
-                    <v-col cols="4">
+                    <v-col cols="6">
                         <BaseInput id="dataValidade" type="date" v-model="produto.dataValidade" label="Data de Validade"
                             :readonly="true" />
                     </v-col>
-                    <v-col cols="4">
-                        <BaseInput id="status" v-model="produto.status" label="Status do Produto" :readonly="true" />
+                    <v-col cols="6">
+                        <BaseInput id="status" v-model="produto.status" label="Status" :readonly="true" />
                     </v-col>
-
                 </v-row>
+                <v-row>
+                    <v-col cols="6">
+                        <BaseInput id="precoOriginal" v-model="produto.precoOriginal" label="Preço Original"
+                            :readonly="true" />
 
-                <BaseInput id="precoOriginal" v-model="produto.precoOriginal" label="Preço Original" :readonly="true" />
-                <BaseInput id="precoDesconto" v-model="produto.precoDesconto" label="Preço com Desconto"
-                    :readonly="true" />
-                <BaseInput id="categoria" v-model="produto.categoria" label="Categoria do Produto" :readonly="true" />
-                <BaseInput id="empresa" v-model="empresa.nome" label="Empresa Responsável" :readonly="true" />
-                <BaseInput id="logradouro" v-model="empresa.localizacao.logradouro" label="Logradouro"
-                    :readonly="true" />
-                <BaseInput id="numero" v-model="empresa.localizacao.numero" label="Número" :readonly="true" />
-                <BaseInput id="bairro" v-model="empresa.localizacao.bairro" label="Bairro" :readonly="true" />
+                    </v-col>
+                    <v-col cols="6">
+                        <BaseInput id="precoDesconto" v-model="produto.precoDesconto" label="Preço com Desconto"
+                            :readonly="true" />
+
+                    </v-col>
+                </v-row>
+                <BaseInput id="categoria" v-model="produto.categoria" label="Categoria" :readonly="true" />
+                <v-row>
+                    <v-col cols="6">
+                        <BaseInput id="empresa" v-model="empresa.nome" label="Empresa Responsável" :readonly="true" />
+
+
+                    </v-col>
+                    <v-col cols="6">
+                        <BaseInput id="logradouro" v-model="empresa.localizacao.logradouro" label="Logradouro"
+                            :readonly="true" />
+
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="6">
+                        <BaseInput id="numero" v-model="empresa.localizacao.numero" label="Número" :readonly="true" />
+                    </v-col>
+                    <v-col cols="6">
+                        <BaseInput id="bairro" v-model="empresa.localizacao.bairro" label="Bairro" :readonly="true" />
+                    </v-col>
+                </v-row>
                 <BaseInput id="cidade" v-model="empresa.localizacao.cidade" label="Cidade" :readonly="true" />
-            </div>
-            <div v-else>
-                <p>Carregando detalhes do produto...</p>
             </div>
         </NavigationDrawer>
     </v-container>
@@ -79,11 +97,9 @@ export default {
     padding: 20px;
 }
 
-.produto-detalhes h2 {
+.produto-detalhes h1,
+p {
     margin-bottom: 16px;
-}
-
-.produto-detalhes p {
-    margin: 8px 0;
+    text-align: left;
 }
 </style>
