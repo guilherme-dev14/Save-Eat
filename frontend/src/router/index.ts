@@ -64,9 +64,8 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/produto/:id',
-    name: 'produtoDetalhes',
-    component: ProdutoDetalhes,
-    props: true
+    name: 'ProdutoDetalhes',
+    component: () => import('@/views/Produtos/ProdutoDetalhes.vue')
   }
 ]
 

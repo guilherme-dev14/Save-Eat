@@ -34,4 +34,14 @@ public class EmpresaController {
             return ResponseEntity.internalServerError().body("Erro ao atualizar empresa: " + e.getMessage());
         }
     }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getEmpresaById(@PathVariable long id) {
+        try {
+            Empresa empresa = empresaService.buscarPorIdEmpresa(id);
+            return ResponseEntity.ok(empresa);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro ao buscar empresa: " + e.getMessage());
+        }
+    }
 }
