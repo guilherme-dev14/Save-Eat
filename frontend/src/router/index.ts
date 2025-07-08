@@ -9,6 +9,7 @@ import Home from '@/views/Home.vue'
 import RedefinirSenhaView from '@/views/RedefinirSenhaView.vue'
 import PerfilEmpresa from '@/views/Empresa/PerfilEmpresa.vue'
 import PerfilConsumidor from '@/views/Cliente/PerfilConsumidor.vue'
+import ProdutoDetalhes from '@/views/Produtos/ProdutoDetalhes.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -60,6 +61,11 @@ const routes: Array<RouteConfig> = [
     name: 'PerfilCliente',
     component: PerfilConsumidor,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/produto/:id',
+    name: 'ProdutoDetalhes',
+    component: () => import('@/views/Produtos/ProdutoDetalhes.vue')
   }
 ]
 

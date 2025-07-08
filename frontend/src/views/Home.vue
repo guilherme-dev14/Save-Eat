@@ -1,46 +1,46 @@
 <template>
-    <NavigationDrawer>
-        <div class="produtos-destaque">
-            <h2>Destaques</h2>
-            <p v-if="erro">{{ erro }}</p>
+  <NavigationDrawer>
+    <div class="produtos-destaque">
+      <h2>Destaques</h2>
+      <p v-if="erro">{{ erro }}</p>
 
-       <div class="grid-produtos">
-                <div class="produto-card" v-for="produto in produtos" :key="produto.id">
-                    <div class="produto-content">
-                        <div class="info-row">
-                            <span class="info-label">Categoria:</span>
-                            <span class="info-value">{{ produto.categoria }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Nome do Produto:</span>
-                            <span class="info-value"><strong>{{ produto.nome }}</strong></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Descrição:</span>
-                            <span class="info-value">{{ produto.descricao }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Preço Original:</span>
-                            <span class="info-value"><s>R$ {{ produto.precoOriginal.toFixed(2) }}</s></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Preço Atual:</span>
-                            <span class="info-value"><strong>R$ {{ produto.precoDesconto.toFixed(2) }}</strong></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Validade:</span>
-                            <span class="info-value">{{ new Date(produto.dataValidade).toLocaleDateString() }}</span>
-                        </div>
-                    </div>
-                    <div class="botao-container">
-                        <button class="botao-ver-mais">
-                            Ver mais
-                        </button>
-                    </div>
-                </div>
+      <div class="grid-produtos">
+        <div class="produto-card" v-for="produto in produtos" :key="produto.id">
+          <div class="produto-content">
+            <div class="info-row">
+              <span class="info-label">Categoria:</span>
+              <span class="info-value">{{ produto.categoria }}</span>
             </div>
+            <div class="info-row">
+              <span class="info-label">Nome do Produto:</span>
+              <span class="info-value"><strong>{{ produto.nome }}</strong></span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Descrição:</span>
+              <span class="info-value">{{ produto.descricao }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Preço Original:</span>
+              <span class="info-value"><s>R$ {{ produto.precoOriginal.toFixed(2) }}</s></span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Preço Atual:</span>
+              <span class="info-value"><strong>R$ {{ produto.precoDesconto.toFixed(2) }}</strong></span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Validade:</span>
+              <span class="info-value">{{ new Date(produto.dataValidade).toLocaleDateString() }}</span>
+            </div>
+          </div>
+          <div class="botao-container">
+            <router-link :to="`/produto/${produto.id}`" class="botao-ver-mais">
+              Ver mais
+            </router-link>
+          </div>
         </div>
-    </NavigationDrawer>
+      </div>
+    </div>
+  </NavigationDrawer>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
@@ -49,27 +49,27 @@ import { listarDestaques } from '@/services/produtoService'
 import type { Produto } from '@/interface/produto'
 
 export default defineComponent({
-    components: { NavigationDrawer },
-    name: 'Home',
-    setup() {
-        const produtos = ref<Produto[]>([])
-        const erro = ref('')
+  components: { NavigationDrawer },
+  name: 'Home',
+  setup() {
+    const produtos = ref<Produto[]>([])
+    const erro = ref('')
 
-        const carregarProdutos = async () => {
-            try {
-                produtos.value = await listarDestaques()
-            } catch (e) {
-                erro.value = 'Erro ao carregar produtos em destaque.'
-            }
-        }
-
-        onMounted(carregarProdutos)
-
-        return {
-            produtos,
-            erro
-        }
+    const carregarProdutos = async () => {
+      try {
+        produtos.value = await listarDestaques()
+      } catch (e) {
+        erro.value = 'Erro ao carregar produtos em destaque.'
+      }
     }
+
+    onMounted(carregarProdutos)
+
+    return {
+      produtos,
+      erro
+    }
+  }
 })
 </script>
 
@@ -137,6 +137,7 @@ export default defineComponent({
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   width: 100%;
+  text-decoration: none;
 }
 
 .botao-ver-mais:hover {

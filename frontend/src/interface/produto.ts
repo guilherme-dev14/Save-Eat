@@ -8,4 +8,5 @@ export interface Produto {
   quantidade: number
   status: string
   categoria: string
+  idEmpresa: number
 }
