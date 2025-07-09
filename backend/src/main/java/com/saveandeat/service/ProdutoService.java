@@ -70,7 +70,7 @@ public class ProdutoService {
     public List<Produto> listarPertoDaValidade() throws Exception {
         return readProdutos().stream()
                 .filter(p -> p.getDataValidade().isAfter(LocalDate.now().minusDays(5))
-                        && p.getDataValidade().isBefore(LocalDate.now()))
+                        && p.getDataValidade().isAfter(LocalDate.now()))
                 .collect(Collectors.toList());
     }
 

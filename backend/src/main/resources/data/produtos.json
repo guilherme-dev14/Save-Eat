@@ -64,4 +64,26 @@
   "status" : "string",
   "categoria" : "string",
   "idEmpresa" : 1
+}, {
+  "id" : 9,
+  "nome" : "string",
+  "descricao" : "string",
+  "precoOriginal" : 10,
+  "precoDesconto" : 5,
+  "dataValidade" : "2025-07-09",
+  "quantidade" : 100,
+  "status" : "string",
+  "categoria" : "string",
+  "idEmpresa" : 1
+}, {
+  "id" : 10,
+  "nome" : "string",
+  "descricao" : "string",
+  "precoOriginal" : 10,
+  "precoDesconto" : 5,
+  "dataValidade" : "2025-07-11",
+  "quantidade" : 100,
+  "status" : "string",
+  "categoria" : "string",
+  "idEmpresa" : 1
 } ]
