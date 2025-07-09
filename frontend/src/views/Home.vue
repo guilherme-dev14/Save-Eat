@@ -1,8 +1,7 @@
 <template>
   <NavigationDrawer>
     <div class="produtos-destaque">
-      <h2>Destaques</h2>
-      <p v-if="erro">{{ erro }}</p>
+      <h2 class="titulo">Destaques</h2>
 
       <div class="grid-produtos">
         <div class="produto-card" v-for="produto in produtos" :key="produto.id">
@@ -143,5 +142,8 @@ export default defineComponent({
 .botao-ver-mais:hover {
   background-color: #0066ff;
   color: white;
+}
+.titulo {
+  padding-bottom: 20px;
 }
 </style>

@@ -104,7 +104,7 @@ export default Vue.extend({
 }
 
 .tela-produto-detalhes {
-    background-color: #f5f5f5;
+    background-color: rgba(212, 199, 199, 0);
     min-height: 100vh;
     padding-top: 32px;
     padding: 30px;
