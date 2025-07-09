@@ -25,20 +25,25 @@ public class AuthService {
     public LoginResponse autenticar(LoginRequest request) throws Exception {
 
         InputStream empresaStream = getClass().getResourceAsStream("/data/empresas.json");
-        List<Empresa> empresas = mapper.readValue(empresaStream, new TypeReference<List<Empresa>>() {});
+        List<Empresa> empresas = mapper.readValue(empresaStream, new TypeReference<List<Empresa>>() {
+        });
 
         for (Empresa e : empresas) {
-            if (e.getEmail().equalsIgnoreCase(request.getEmail()) && passwordEncoder.matches(request.getSenha(), e.getSenha())) {
-                return new LoginResponse("fake-jwt-token", "empresa", e.getEmail());
+            if (e.getEmail().equalsIgnoreCase(request.getEmail())
+                    && passwordEncoder.matches(request.getSenha(), e.getSenha())) {
+                return new LoginResponse("fake-jwt-token", "empresa", e.getEmail(), e.getId());
             }
         }
 
         InputStream consumidorStream = getClass().getResourceAsStream("/data/consumidores.json");
-        List<Consumidor> consumidores = mapper.readValue(consumidorStream, new TypeReference<List<Consumidor>>() {});
+        List<Consumidor> consumidores = mapper.readValue(consumidorStream, new TypeReference<List<Consumidor>>() {
+        });
 
         for (Consumidor c : consumidores) {
-            if (c.getEmail().equalsIgnoreCase(request.getEmail()) && passwordEncoder.matches(request.getSenha(), c.getSenha())) {
-                return new LoginResponse("fake-jwt-token", "consumidor", c.getEmail());
+            if (c.getEmail().equalsIgnoreCase(request.getEmail())
+                    && passwordEncoder.matches(request.getSenha(), c.getSenha())) {
+                return new LoginResponse("fake-jwt-token", "consumidor", c.getEmail(), null);
+
             }
         }
 

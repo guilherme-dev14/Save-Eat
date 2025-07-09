@@ -12,7 +12,6 @@
                 </v-col>
             </v-row>
 
-            <!-- Caixa com fundo branco -->
             <div class="produto-detalhes" v-if="produto">
                 <h1>{{ produto.nome }}</h1>
                 <p>{{ produto.descricao }}</p>
