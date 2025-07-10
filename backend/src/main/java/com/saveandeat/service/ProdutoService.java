@@ -49,6 +49,18 @@ public class ProdutoService {
         return readProdutos();
     }
 
+    public List<Produto> listarTodosEmpresa(Long idEmpresa) throws Exception {
+        return readProdutos().stream()
+                .filter(p -> p.getIdEmpresa().equals(idEmpresa))
+                .collect(Collectors.toList());
+    }
+
+    public List<Produto> listarVencidosEmpresa(Long idEmpresa) throws Exception {
+        return readProdutos().stream()
+                .filter(p -> p.getIdEmpresa().equals(idEmpresa) && p.getDataValidade().isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+    }
+
     public Optional<Produto> buscarPorId(Long id) throws Exception {
         return readProdutos().stream()
                 .filter(p -> p.getId().equals(id))

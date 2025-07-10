@@ -31,6 +31,16 @@ public class ProdutoController {
         return service.listarForaValidade();
     }
 
+    @GetMapping("/Empresa/Vencidos")
+    public List<Produto> listarVencidosEmpresa(@RequestParam Long idEmpresa) throws Exception {
+        return service.listarVencidosEmpresa(idEmpresa);
+    }
+
+    @GetMapping("/Empresa/Todos")
+    public List<Produto> listarTodosEmpresa(@RequestParam Long idEmpresa) throws Exception {
+        return service.listarTodosEmpresa(idEmpresa);
+    }
+
     @GetMapping("/ProximoValidade")
     public List<Produto> listarProximoValidade() throws Exception {
         return service.listarPertoDaValidade();

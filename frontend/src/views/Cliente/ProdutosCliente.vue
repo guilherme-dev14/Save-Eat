@@ -6,21 +6,11 @@
       </div>
 
       <div class="tabs">
-        <button
-          v-for="tab in tabs"
-          :key="tab"
-          @click="selecionarTab(tab)"
-          :class="['tab-button', { active: selectedTab === tab }]"
-        >
+        <button v-for="tab in tabs" :key="tab" @click="selecionarTab(tab)"
+          :class="['tab-button', { active: selectedTab === tab }]">
           {{ tab }}
         </button>
-        <input
-          type="text"
-          placeholder="Pesquisar"
-          class="search"
-          v-model="termoBusca"
-          @input="paginaAtual = 1"
-        />
+        <input type="text" placeholder="Pesquisar" class="search" v-model="termoBusca" @input="paginaAtual = 1" />
       </div>
 
       <div class="table-container">
@@ -57,13 +47,8 @@
 
       <div class="pagination">
         <button @click="irParaPagina(paginaAtual - 1)" :disabled="paginaAtual === 1">‹ Anterior</button>
-        <button
-          v-for="pagina in paginasExibidas"
-          :key="pagina"
-          @click="irParaPagina(pagina)"
-          :class="{ active: paginaAtual === pagina, ellipsis: pagina === '...' }"
-          :disabled="pagina === '...'"
-        >
+        <button v-for="pagina in paginasExibidas" :key="pagina" @click="irParaPagina(pagina)"
+          :class="{ active: paginaAtual === pagina, ellipsis: pagina === '...' }" :disabled="pagina === '...'">
           {{ pagina }}
         </button>
         <button @click="irParaPagina(paginaAtual + 1)" :disabled="paginaAtual === totalPaginas">Próxima ›</button>
@@ -71,7 +56,6 @@
     </v-container>
   </NavigationDrawer>
 </template>
-
 <script lang="ts">
 import {
   listarTodos,
@@ -80,6 +64,7 @@ import {
 } from '@/services/produtoService'
 import Vue from 'vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
+import type { Produto } from '@/interface/produto'
 
 export default Vue.extend({
   components: {
@@ -90,24 +75,24 @@ export default Vue.extend({
       selectedTab: 'Todos',
       tabs: ['Todos', 'Próximo da Validade', 'Fora do Padrão'],
       paginaAtual: 1,
-      produtos: [],
+      produtos: [] as Produto[],
       termoBusca: '',
       carregando: false
     }
   },
   computed: {
-    produtosFiltrados() {
+    produtosFiltrados(): Produto[] {
       if (!this.termoBusca) return this.produtos
       const termo = this.termoBusca.toLowerCase()
       return this.produtos.filter(p =>
         p.nome?.toLowerCase().includes(termo)
       )
     },
-    produtosPaginados() {
+    produtosPaginados(): Produto[] {
       const inicio = (this.paginaAtual - 1) * 10
       return this.produtosFiltrados.slice(inicio, inicio + 10)
     },
-    totalPaginas() {
+    totalPaginas(): number {
       return Math.ceil(this.produtosFiltrados.length / 10)
     },
     paginasExibidas(): (number | string)[] {
@@ -168,9 +153,8 @@ export default Vue.extend({
 })
 </script>
 
+
 <style scoped>
-
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -183,18 +167,21 @@ export default Vue.extend({
   font-weight: bold;
 }
 
-.search {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  font-size: 14px;
-}
-
 .tabs {
   display: flex;
   gap: 12px;
   border-bottom: 1px solid #ddd;
   margin-bottom: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.search {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 14px;
+  margin-left: auto;
 }
 
 .tab-button {
@@ -286,13 +273,14 @@ export default Vue.extend({
 }
 
 ::v-deep main.content {
-    padding: 0 !important;
-    background-color: #f5f5f5 !important;
+  padding: 0 !important;
+  background-color: #f5f5f5 !important;
 }
+
 .tela-produto-detalhes {
-    background-color: rgba(212, 199, 199, 0);
-    min-height: 100vh;
-    padding-top: 32px;
-    padding: 30px;
+  background-color: rgba(212, 199, 199, 0);
+  min-height: 100vh;
+  padding-top: 32px;
+  padding: 30px;
 }
 </style>

@@ -4,11 +4,21 @@ public class LoginResponse {
     private String token;
     private String tipoUsuario;
     private String email;
+    private Long idEmpresa;
 
-    public LoginResponse(String token, String tipoUsuario, String email) {
+    public LoginResponse(String token, String tipoUsuario, String email, Long idEmpresa) {
         this.token = token;
         this.tipoUsuario = tipoUsuario;
         this.email = email;
+        this.idEmpresa = idEmpresa;
+    }
+
+    public Long getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(Long idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     public String getToken() {
@@ -30,7 +40,7 @@ public class LoginResponse {
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }

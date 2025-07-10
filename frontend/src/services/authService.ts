@@ -14,7 +14,14 @@ export async function login(email: string, senha: string) {
     throw new Error("Credenciais inválidas");
   }
 
-  return await response.json();
+  const data = await response.json();
+
+  localStorage.setItem("token", data.token);
+  if (data.idEmpresa) {
+    localStorage.setItem("idEmpresa", data.idEmpresa.toString());
+  }
+
+  return data;
 }
 
 export async function cadastrarConsumidor(

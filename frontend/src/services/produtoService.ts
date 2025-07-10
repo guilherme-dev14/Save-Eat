@@ -44,6 +44,24 @@ export async function listarForaValidade(): Promise<Produto[]> {
   const data = await res.json()
   return data as Produto[]
 }
+export async function listarTodosDaEmpresa(id: number): Promise<Produto[]> {
+  const res = await fetch(`${API}/produtos/Empresa/Todos?idEmpresa=${id}`)
+  if (!res.ok) {
+    throw new Error('Erro ao buscar produtos da empresa')
+  }
+  const data = await res.json()
+  return data as Produto[];
+}
+
+export async function listarVencidosEmpresa(id: number): Promise<Produto[]> {
+  const res = await fetch(`${API}/produtos/Empresa/Vencidos?idEmpresa=${id}`)
+  if (!res.ok) {
+    throw new Error('Erro ao buscar produtos vencidos da empresa')
+  }
+  const data = await res.json()
+  return data as Produto[];
+}
+
 
 export async function listarProximosValidade(): Promise<Produto[]> {
   const res = await fetch(`${API}/produtos/ProximoValidade`)
@@ -54,4 +72,18 @@ export async function listarProximosValidade(): Promise<Produto[]> {
 
   const data = await res.json()
   return data as Produto[]
+}
+export async function deletarProduto(id: number): Promise<void> {
+
+  const res = await fetch(`${API}/produtos/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+
+  if (!res.ok) {
+    throw new Error('Erro ao deletar o Produto');
+  }
 }

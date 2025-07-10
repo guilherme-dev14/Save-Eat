@@ -13,4 +13,19 @@
     "cep" : "95032735",
     "estado" : "rs"
   }
+}, {
+  "id" : 2,
+  "nome" : "test",
+  "cnpj" : "58.880.336/0001-76",
+  "email" : "string2@gmail.com",
+  "senha" : "$2a$10$iy6u64p49rvUMjVOywZp0O82CfEVp46wpdtUio85J721jzqqEl3s.",
+  "localizacao" : {
+    "id" : 1752087810745,
+    "logradouro" : "asdas",
+    "numero" : 356,
+    "bairro" : "asdas",
+    "cidade" : "asda",
+    "cep" : "95032-835",
+    "estado" : "rs"
+  }
 } ]
