@@ -1,33 +1,9 @@
 [ {
   "id" : 1,
-  "nome" : "guilherme medeiros",
-  "cpf" : "05365278062",
-  "email" : "medeirosguilherme1404@gmail.com",
-  "senha" : "guilherme123",
-  "bairro" : null,
-  "categoriaFavorita" : null
-}, {
-  "id" : 2,
-  "nome" : "guilherm",
-  "cpf" : "053652879044",
-  "email" : "guilherme@gmail.com",
-  "senha" : "guilherme123",
-  "bairro" : null,
-  "categoriaFavorita" : null
-}, {
-  "id" : 3,
-  "nome" : "dudu sachet",
-  "cpf" : "05365278062",
-  "email" : "dudu@gmail.com",
-  "senha" : "dudu123",
-  "bairro" : null,
-  "categoriaFavorita" : null
-}, {
-  "id" : 4,
-  "nome" : "sad",
-  "cpf" : "05365278062",
-  "email" : "string@gmail.com",
-  "senha" : "$2a$10$qPFHl78Q.XEIZH1LMpn07exxVMDjETPBj.LGKIqVSX0NhOEJCkhNq",
-  "bairro" : "",
-  "categoriaFavorita" : ""
+  "nome" : "Guilherme Medeiros",
+  "cpf" : "053.652.780-62",
+  "email" : "medeiros@gmail.com",
+  "senha" : "$2a$10$WLxuQUsP/3Ltlm7fv4GGAuM2hNCdRtvxb1o6Q3xZH57tnOEyphb4.",
+  "bairro" : "Vinhedos",
+  "categoriaFavorita" : "Hortifruti"
 } ]

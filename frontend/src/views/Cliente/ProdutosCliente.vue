@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(produto, index) in produtosPaginados" :key="index">
+            <tr v-for="(produto, index) in produtosPaginados" :key="index" @click="irParaProdutoDetalhes(produto.id)">
               <td>
                 <div class="product-name">
                   <div class="name-main">{{ produto.nome }}</div>
@@ -47,7 +47,7 @@
 
       <div class="pagination">
         <button @click="irParaPagina(paginaAtual - 1)" :disabled="paginaAtual === 1">‹ Anterior</button>
-        <button v-for="pagina in paginasExibidas" :key="pagina" @click="irParaPagina(pagina)"
+        <button v-for="pagina in paginasExibidas" :key="pagina" @click="irParaPagina(Number(pagina))"
           :class="{ active: paginaAtual === pagina, ellipsis: pagina === '...' }" :disabled="pagina === '...'">
           {{ pagina }}
         </button>
@@ -64,7 +64,7 @@ import {
 } from '@/services/produtoService'
 import Vue from 'vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
-import type { Produto } from '@/interface/produto'
+import type { Produto, ProdutoEdit } from '@/interface/produto'
 
 export default Vue.extend({
   components: {
@@ -75,20 +75,20 @@ export default Vue.extend({
       selectedTab: 'Todos',
       tabs: ['Todos', 'Próximo da Validade', 'Fora do Padrão'],
       paginaAtual: 1,
-      produtos: [] as Produto[],
+      produtos: [] as ProdutoEdit[],
       termoBusca: '',
       carregando: false
     }
   },
   computed: {
-    produtosFiltrados(): Produto[] {
+    produtosFiltrados(): ProdutoEdit[] {
       if (!this.termoBusca) return this.produtos
       const termo = this.termoBusca.toLowerCase()
       return this.produtos.filter(p =>
         p.nome?.toLowerCase().includes(termo)
       )
     },
-    produtosPaginados(): Produto[] {
+    produtosPaginados(): ProdutoEdit[] {
       const inicio = (this.paginaAtual - 1) * 10
       return this.produtosFiltrados.slice(inicio, inicio + 10)
     },
@@ -116,6 +116,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    irParaProdutoDetalhes(id: string) {
+      this.$router.push(`/produto/${id}`);
+    },
     async selecionarTab(tab: string) {
       this.selectedTab = tab
       this.paginaAtual = 1

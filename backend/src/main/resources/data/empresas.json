@@ -1,31 +1,31 @@
 [ {
   "id" : 1,
-  "nome" : "keyworks",
-  "cnpj" : "12321321321",
-  "email" : "keyworks@gmail.com",
-  "senha" : "keyworks123",
+  "nome" : "Save and Eat",
+  "cnpj" : "40.501.476/0001-20",
+  "email" : "saveeat@gmail.com",
+  "senha" : "$2a$10$M5PKC2xztXHXWu9YyiheV.XEkGPKQ9KpJNfyj5/E6CG7/IXsvK6ui",
   "localizacao" : {
-    "id" : 1747430493144,
-    "logradouro" : "rua feijo",
-    "numero" : 1800,
-    "bairro" : "exposicao",
+    "id" : 1752255938460,
+    "logradouro" : "rua",
+    "numero" : 30,
+    "bairro" : "vinhedos",
     "cidade" : "caxias do sul",
-    "cep" : "95032735",
-    "estado" : "rs"
+    "cep" : "95032-735",
+    "estado" : "RS"
   }
 }, {
   "id" : 2,
-  "nome" : "test",
-  "cnpj" : "58.880.336/0001-76",
-  "email" : "string2@gmail.com",
-  "senha" : "$2a$10$iy6u64p49rvUMjVOywZp0O82CfEVp46wpdtUio85J721jzqqEl3s.",
+  "nome" : "save",
+  "cnpj" : "40.501.476/0001-20",
+  "email" : "eat@gmail.com",
+  "senha" : "$2a$10$xBLxhec2eeUPigJ/NzU73OQyeSrkSXflZCuJd6R7pnktdRpRPiyvm",
   "localizacao" : {
-    "id" : 1752087810745,
-    "logradouro" : "asdas",
-    "numero" : 356,
-    "bairro" : "asdas",
-    "cidade" : "asda",
-    "cep" : "95032-835",
+    "id" : 1752256226549,
+    "logradouro" : "rua",
+    "numero" : 35,
+    "bairro" : "vinhedos",
+    "cidade" : "caxias",
+    "cep" : "95032-735",
     "estado" : "rs"
   }
 } ]

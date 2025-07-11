@@ -163,4 +163,13 @@ export default Vue.extend({
     color: white;
     background-color: #1877cf !important;
 }
+
+::v-deep main.content {
+    padding: 0 !important;
+    background-color: #f5f5f5 !important;
+}
+
+.v-container {
+    padding: 0 !important;
+}
 </style>
