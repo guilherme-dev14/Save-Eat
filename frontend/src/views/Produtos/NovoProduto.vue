@@ -1,6 +1,6 @@
 <template>
     <NavigationDrawer>
-        <v-container class="tela-produto-detalhes">
+        <v-container class="tela-produto-novo">
             <v-row class="header-linha">
                 <v-col cols="9">
                     <h1 class="titulo-pagina">Cadastro de Produtos</h1>
@@ -11,101 +11,134 @@
                     </v-btn>
                 </v-col>
             </v-row>
+            <v-snackbar v-model="snackbar.show" :color="snackbar.color" timeout="3000">
+                {{ snackbar.msg }}
+            </v-snackbar>
 
-            <div class="produto-detalhes" v-if="produto">
-                <v-row>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="nome" v-model="produto.nome" label="Nome" />
-                    </v-col>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="precoOriginal" v-model="produto.precoOriginal" label="Preço Original" />
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="precoDesconto" v-model="produto.precoDesconto" label="Preço com Desconto" />
-                    </v-col>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="quantidade" v-model="produto.quantidade" label="Quantidade" />
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="descricao" v-model="produto.descricao" label="Descrição" />
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="dataValidade" type="date" v-model="produto.dataValidade"
-                            label="Data de Validade" />
-                    </v-col>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="status" v-model="produto.status" label="Status" />
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="6">
-                        <BaseInput id="categoria" v-model="produto.categoria" label="Categoria" />
-                    </v-col>
-                </v-row>
-                <v-btn class="btn-salvar" @click="salvarProduto">Salvar</v-btn>
-            </div>
+            <v-card>
+                <div>
+                    <v-card-title>
+                        <strong>Detalhes</strong>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-form>
+                            <BaseInput label="Nome" v-model="form.nome" />
+
+                            <v-row>
+                                <v-col cols="4">
+                                    <BaseInput label="Preço Original" v-model="form.precoOriginal" />
+                                </v-col>
+                                <v-col cols="4">
+                                    <BaseInput label="Preço com Desconto" v-model="form.precoDesconto" />
+                                </v-col>
+                                <v-col cols="4">
+                                    <BaseInput label="Quantidade" v-model="form.quantidade" />
+                                </v-col>
+                            </v-row>
+
+                            <BaseInput label="Descrição" v-model="form.descricao" />
+
+                            <v-row>
+                                <v-col cols="6">
+                                    <BaseInput label="Data de Validade" v-model="form.dataValidade" type="date" />
+                                </v-col>
+                                <v-col cols="6">
+                                    <BaseInput label="Status" v-model="form.status" />
+                                </v-col>
+                            </v-row>
+
+                            <BaseInput label="Categoria" v-model="form.categoria" />
+
+                            <v-btn class="bt-salvar" :loading="loading" :disabled="loading" @click="salvarProduto">
+                                Salvar
+                            </v-btn>
+
+                        </v-form>
+                    </v-card-text>
+                </div>
+            </v-card>
+
         </v-container>
     </NavigationDrawer>
 </template>
 
 <script lang="ts">
-import NavigationDrawer from '@/components/NavigationDrawer.vue'
-import BaseInput from '@/components/BaseInput.vue'
-import { buscarPorId } from '@/services/produtoService'
-import { buscarPorIdEmpresa } from '@/services/empresaService'
-import type { Produto } from '@/interface/produto'
-import type { Empresa } from '@/interface/empresa'
-import { Route } from 'vue-router'
-import Vue from 'vue'
-
+import Vue from 'vue';
+import NavigationDrawer from '@/components/NavigationDrawer.vue';
+import BaseInput from '@/components/BaseInput.vue';
+import { Produto } from '@/interface/produto';
+import { adicionar } from '@/services/produtoService';   // ajuste o path
 export default Vue.extend({
-    name: 'ProdutoDetalhes',
-    components: {
-        NavigationDrawer,
-        BaseInput,
-    },
+    name: 'ProdutoNovo',
+    components: { NavigationDrawer, BaseInput },
+
     data() {
         return {
-            produto: null as Produto | null,
-            empresa: null as Empresa | null,
-        }
+            loading: false,
+            form: {
+                nome: '',
+                precoOriginal: 0,
+                precoDesconto: 0,
+                quantidade: 0,
+                descricao: '',
+                dataValidade: '',
+                status: '',
+                categoria: '',
+                idEmpresa: Number(localStorage.getItem('idEmpresa')),
+            } as Produto,
+            snackbar: { show: false, msg: '', color: '' },
+        };
     },
-    async mounted() {
-        const route = this.$route as Route;
-        const id = Number(route.params.id);
-        try {
-            const resposta = await buscarPorId(id);
-            this.produto = resposta;
-            const empresa = await buscarPorIdEmpresa(resposta.idEmpresa);
-            this.empresa = empresa;
-        } catch (e) {
-            console.error('Erro ao carregar produto:', e);
-        }
-    },
+
     methods: {
-        salvarProduto() {
-            // logic to save the product
-            console.log('Produto salvo!');
-        }
-    }
-})
+
+        isFormValid(): boolean {
+            if (!this.form.nome.trim()) { this.showSnack('Nome é obrigatório', 'error'); return false; }
+            if (this.form.precoOriginal < 0 || this.form.precoDesconto < 0) {
+                this.showSnack('Preços não podem ser negativos', 'error'); return false;
+            }
+            return true;
+        },
+
+        showSnack(msg: string, type: 'success' | 'error') {
+            this.snackbar = { show: true, msg, color: type === 'success' ? 'green' : 'red' };
+        },
+
+
+        async salvarProduto() {
+            if (!this.isFormValid()) return;
+
+            this.loading = true;
+            try {
+                const produtoSalvo = await adicionar(this.form);
+                this.showSnack('Produto salvo com sucesso!', 'success');
+
+                setTimeout(() => this.$router.go(-1), 1000);
+                console.log('Retorno do backend:', produtoSalvo);
+            } catch (e) {
+                console.error(e);
+                this.showSnack('Erro ao salvar produto', 'error');
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
+});
 </script>
 
+
 <style scoped>
+.card-NovoProduto {
+    padding: 30px;
+}
+
 .text-right {
     text-align: right;
 }
 
-.tela-produto-detalhes {
-    background-color: rgba(212, 199, 199, 0);
+.tela-produto-novo {
+    background-color: #f5f5f5;
     min-height: 100vh;
-    padding-top: 32px;
     padding: 30px;
 }
 
@@ -113,25 +146,8 @@ export default Vue.extend({
     margin-bottom: 15px;
 }
 
-.produto-detalhes {
-    background-color: #ffffff;
-    padding: 32px;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.493);
-}
-
-.produto-detalhes h1,
-.produto-detalhes p {
-    margin-bottom: 16px;
-    text-align: left;
-}
-
-.v-container {
-    padding: 0 !important;
-}
-
 .bt-voltar {
-    color: rgb(24, 119, 207);
+    color: #1877cf;
 }
 
 .titulo-pagina {
@@ -139,17 +155,12 @@ export default Vue.extend({
     text-align: left;
 }
 
-::v-deep main.content {
-    padding: 0 !important;
-    background-color: #f5f5f5 !important;
+.v-card {
+    padding: 24px;
 }
 
-.btn-salvar {
-    background-color: #2196f3;
+.bt-salvar {
     color: white;
-    width: 100%;
-    padding: 16px;
-    border-radius: 4px;
-    text-transform: uppercase;
+    background-color: #1877cf !important;
 }
 </style>

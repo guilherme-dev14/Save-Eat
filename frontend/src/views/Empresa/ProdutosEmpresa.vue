@@ -82,7 +82,7 @@ import {
 } from '@/services/produtoService'
 import Vue from 'vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
-import type { Produto } from '@/interface/produto'
+import type { Produto, ProdutoEdit } from '@/interface/produto'
 
 export default Vue.extend({
     components: {
@@ -93,20 +93,20 @@ export default Vue.extend({
             selectedTab: 'Todos',
             tabs: ['Todos', 'Vencidos'],
             paginaAtual: 1,
-            produtos: [] as Produto[],
+            produtos: [] as ProdutoEdit[],
             termoBusca: '',
             carregando: false
         }
     },
     computed: {
-        produtosFiltrados(): Produto[] {
+        produtosFiltrados(): ProdutoEdit[] {
             if (!this.termoBusca) return this.produtos
             const termo = this.termoBusca.toLowerCase()
             return this.produtos.filter(p =>
                 p.nome?.toLowerCase().includes(termo)
             )
         },
-        produtosPaginados(): Produto[] {
+        produtosPaginados(): ProdutoEdit[] {
             const inicio = (this.paginaAtual - 1) * 10
             return this.produtosFiltrados.slice(inicio, inicio + 10)
         },

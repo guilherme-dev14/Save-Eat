@@ -1,5 +1,4 @@
 export interface Produto {
-  id: number
   nome: string
   descricao: string
   precoOriginal: number
@@ -9,4 +8,8 @@ export interface Produto {
   status: string
   categoria: string
   idEmpresa: number
+}
+
+export interface ProdutoEdit extends Produto {
+  id: number
 }
